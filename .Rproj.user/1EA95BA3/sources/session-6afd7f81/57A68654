@@ -1,9 +1,9 @@
 {
     "id": "57A68654",
-    "path": "~/GitHub/Netflix-Proyecto/Commit 1.R",
-    "project_path": "Commit 1.R",
+    "path": "~/GitHub/Netflix-Proyecto/Commits.R",
+    "project_path": "Commits.R",
     "type": "r_source",
-    "hash": "998204295",
+    "hash": "1054019825",
     "contents": "",
     "dirty": false,
     "created": 1717369716671.0,
@@ -13,15 +13,15 @@
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "64,0",
-        "scrollLine": "45"
+        "cursorPosition": "106,0",
+        "scrollLine": "87"
     },
     "folds": "",
-    "lastKnownWriteTime": 1717431894,
+    "lastKnownWriteTime": 1717708329,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1717431894930,
+    "last_content_update": 1717708329865,
     "read_only": false,
     "read_only_alternatives": []
 }
