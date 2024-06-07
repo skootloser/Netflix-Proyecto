@@ -1,8 +1,10 @@
-#Incio del analisis estadistico
+# Incio del analisis estadistico  
 
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
+library(corrplot)
+library(psych)
 
 setwd("C:/Users/Venejuegos/Documents/GitHub/Netflix-Proyecto")
 getwd() #Directorio de trabajo
@@ -104,3 +106,49 @@ C + ggtitle("Calidad de Titulos por Genero") +
 Parte 3
 
 #### Ahora vamos a evaluar por separado cada uno de estos generos ####
+
+table(Gen, Netflix$Calidad) #Tabla bivariante
+
+#Reakizamos un vector de las cantidades de peliculas segun su calidad por cada genero
+
+## 1
+ComediaP <- c(17 , 41 , 5)
+
+## 2
+DramaP <- c(18 , 53 , 6)
+
+## 3
+DocumentalP <- c(29 , 113 , 17)
+
+## 4
+OtrosP <- c(45 , 145 , 22)
+
+## 5
+RomanceP <- c(12 , 23 , 4)
+
+## 6
+ThrillerP <- c(12 , 17 , 4)
+
+#Creanos una matrix para comparar los generos
+
+Generos <- matrix(c(ComediaP, DocumentalP, DramaP, RomanceP, ThrillerP, OtrosP),
+                  nrow = 3,
+                  ncol = 6)
+
+colnames(Generos) <- c("Comedia" , "Documental" , "Drama" , "Romance", "Thriller", "Otros")
+rownames(Generos) <- c("Buena" , "Regular" , "Mala")
+
+#Podemos evaluar una correlacion entre generos
+
+Generos1 <- cor(Generos, method = "pearson")
+Generos1
+corrplot(Generos1)
+
+#Encontremos que tan relacionados estan los generos entre ellos
+
+pairs(Generos) #Analisamos la corelacion entre generos
+pairs.panels(Generos)
+
+#### Luegos de conocer nuestros generos y relacion entre ellos vamos a lo siguiente: ¿Cual es el mejor genero?
+
+Parte 4
