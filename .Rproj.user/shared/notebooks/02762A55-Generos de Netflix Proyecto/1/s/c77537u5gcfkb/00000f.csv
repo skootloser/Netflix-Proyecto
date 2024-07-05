@@ -1,0 +1,8 @@
+"0","Generos <- factor(Generos,
+             levels = c(""Documentary"" , ""Drama"" , ""Comedy"" , ""Romantic comedy"" , 
+                        ""Thriller"" , ""Comedy-drama"" , ""Other"") ,
+             labels = c(""Documental"" , ""Drama"" , ""Comedia"" , ""Romance"" , ""Thriller"" ,
+                        ""Comedia"" , ""Otros""))
+"
+"2","Error: objeto 'Generos' no encontrado
+"

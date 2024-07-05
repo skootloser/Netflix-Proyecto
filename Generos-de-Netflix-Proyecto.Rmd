@@ -1,0 +1,96 @@
+---
+title: "GÉNEROS NETFLIX"
+author: "Abrahám Soto"
+date: "2024-06-30"
+output: pdf_document
+lang: es-ES
+---
+
+
+\pagebreak
+
+# INTRODUCCIÓN
+
+A través de este análisis estadístico se busca determinar el estudio de los géneros de peliculas, series, documentales y mucho más correspondientes a todas las entregas de la plataforma de streaming Netflix, desde el año 2014 al año 2021, siendo un total de 583 titulos.
+
+Analizaremos los géneros según sus puntajes los cuales son establecido por la audiencia de imdb_score con un rango de 0 a 10 puntos. Obteniendo así cuales son los mejores géneros de la plataforma Netflix y cuántos titulos de diferentes calidades hay según cada uno.
+
+## Análisis de data
+
+Al ver nuestra base de datos podemos encontrar las variables "titulos" , "generos" y "puntajes" con los cuales vamos a trabajar. Cada puntaje es correspondiente a cada titulo, los generos varían puesto que son 112 géneros en total, comenzaremos agrupando estos generos en nuevos grupos asociandolos para minimizar el total de generos, esto volverá nuestro trabajo más fácil.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(corrplot)
+Netflix.G6 <- read.csv("C:/Users/Venejuegos/Desktop/UCV/Netflix G6.csv", sep=";")
+ View(Netflix.G6) 
+```
+
+
+#### Objetivo 1
+
+
+Analizaremos la variale "Generos" para designar nuestras primeras operaciones, al ser una variable de tipo carácter la transformaremos a factor.
+
+```{r Factor, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+Netflix.G6$Genero <- factor(Netflix.G6$Genero)
+Genero <- Netflix.G6$Genero
+```
+
+Creando el factor "Genero" podemos conocer el total de generos exisentes:
+
+```{r Generos}
+table(Genero)
+```
+
+Podemos apreciar que existe un total de 114 géneros, una cantidad sumamente grande de trabajar, vamos a reducirlo a 6 géneros agrupandolos según sus carácteristicas.
+
+```{r Agrupar, include=FALSE}
+Generos <- c(rep("Documentary" ,159) , rep("Drama" ,77) , rep("Comedy" ,49) , 
+        rep("Romantic comedy" ,39) , rep("Thriller" ,33) , rep("Comedy-drama" ,14) ,
+        rep("Other" ,212))
+```
+
+```{r Renombrar, include=FALSE}
+Generos <- factor(Generos,
+             levels = c("Documentary" , "Drama" , "Comedy" , "Romantic comedy" , 
+                        "Thriller" , "Comedy-drama" , "Other") ,
+             labels = c("Documental" , "Drama" , "Comedia" , "Romance" , "Thriller" ,
+                        "Comedia" , "Otros"))
+
+```
+
+\pagebreak
+
+```{r Nueva tabla de Generos}
+table(Generos)
+```
+Gracias a nuestra nueva tabla de frecuencias acumuladas, podemos vizualizar a través de un gráfco nuestras magnitudes:
+
+```{r, include=FALSE}
+G  <- ggplot(mapping = aes(x = factor(Generos))) + geom_bar(fill = "Purple") + coord_flip()
+```
+
+```{r Gráfica, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+GENEROS <- G + ggtitle("Cantidad de Titulos por Genero") +
+   theme(plot.title = element_text(family = "sans", 
+                                   size=rel(1.8),
+                                   vjust=0.5 , hjust=0.5 ,
+                                   face = "italic" ,
+                                   color="Black"))+
+labs(x="Generos",y="Titulos")+
+  theme(axis.title.x = element_text(face="bold",vjust=0.5, color="Purple", size=rel(1.5)))+
+  theme(axis.title.y = element_text(face="bold",vjust=0.5, color="Black", size=rel(1.5)))
+```
+
+```{r}
+GENEROS
+```
+

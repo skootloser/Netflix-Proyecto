@@ -1,0 +1,1 @@
+"0","C <- ggplot(Netflix.G6, aes(x=Generos, y=imdb_score, fill=Calidad)) + geom_col(position =""dodge"")"

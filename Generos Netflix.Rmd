@@ -1,0 +1,22 @@
+---
+title: "Generos de Netflix" 
+author: "Abrahám Soto y Odalis Rodriguez" 
+date: "2024-06-29"
+output: 
+pdf_document: 
+toc: TRUE 
+lang: es-ES
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+
+library(readr)
+Netflix.G6 <- read.csv("C:/Users/Venejuegos/Desktop/UCV/Netflix G6.csv", sep=";")
+ View(Netflix.G6)
+```
+
+
+ 
+ 

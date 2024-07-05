@@ -1,0 +1,8 @@
+"0","knitr::opts_chunk$set(echo = TRUE)"
+"0",""
+"0","Datos <- matrix(c(ComediaP, DocumentalP, DramaP, RomanceP, ThrillerP, OtrosP),"
+"0","                  nrow = 3,"
+"0","                  ncol = 6)"
+"0",""
+"0","colnames(Datos) <- c(""Comedia"" , ""Documental"" , ""Drama"" , ""Romance"", ""Thriller"", ""Otros"")"
+"0","rownames(Datos) <- c(""Buena"" , ""Regular"" , ""Mala"")"
