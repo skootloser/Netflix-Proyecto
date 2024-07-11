@@ -1,0 +1,254 @@
+---
+title: "Géneros de Netflix"
+author: "Abrahám Soto y Odalis Rodriguez"
+date: "2024-07-11"
+output: pdf_document
+---
+
+\pagebreak
+           
+
+# INTRODUCCIÓN
+
+Netflix es una empresa de entretenimiento, con una plataforma de servicio streaming por suscripción en un dispositivo con coneción a internet, ofrece una cantidad de películas, series, documentales, programas interactivos; sin recibir anuncios publicitarios en tu navegación por la plataforma.
+
+Esto nos lleva a conocer el hecho de que Netflix ofrece una buena experiencia audiovisual para el espectador. Por años el gigante de la pantalla chica se catalogó como la plataforma con más titulos disponibles, a travé de la siguiente base de datos, recolectando 583 titulos desde el año 2014 al año 2021, cada uno con sus características.
+
+Con la finalidad de determinar qué géneros de entretenimiento prefiere la audiencia suscrita a la plataforma.
+
+\pagebreak
+
+## Análisis de la data
+
+En observación a nuestra data podemos establecer que existen 114 géneros en total, provenientes de la variable "Género", los cuales corresponden a un título caracteristicamente. 
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(corrplot)
+Netflix.G6 <- read.csv("C:/Users/Venejuegos/Desktop/UCV/Netflix G6.csv", sep=";")
+ View(Netflix.G6) 
+```
+
+
+```{r Factor, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+Netflix.G6$Genero <- factor(Netflix.G6$Genero)
+Genero <- Netflix.G6$Genero
+```
+
+
+```{r Generos2}
+
+table(Netflix.G6$Genero)
+```
+
+## Objetivo 1: Agrupar géneros
+
+Denotamos que existen similitudes entre los géneros y por ello agrupamos en 6 categorías respectivamente para manejar de mejor manera nuestra información. Contamos con los géneros: Comedia, Thriller, Documentales, Romance, Drama y Otros.
+
+
+```{r Agrupar, include=FALSE}
+Generos <- c(rep("Documentary" ,159) , rep("Drama" ,77) , rep("Comedy" ,49) , 
+        rep("Romantic comedy" ,39) , rep("Thriller" ,33) , rep("Comedy-drama" ,14) ,
+        rep("Other" ,212))
+```
+
+```{r Renombrar, include=FALSE}
+Generos <- factor(Generos,
+             levels = c("Documentary" , "Drama" , "Comedy" , "Romantic comedy" , 
+                        "Thriller" , "Comedy-drama" , "Other") ,
+             labels = c("Documental" , "Drama" , "Comedia" , "Romance" , "Thriller" ,
+                        "Comedia" , "Otros"))
+
+```
+
+```{r Nueva tabla de Generos}
+table(Generos)
+```
+
+\pagebreak
+
+Gracias a la nueva tabla de frecuencias acumuladas, podemos vizualizar a través de un gráfco las cantidades correspondientes:
+
+```{r Crear G, include=FALSE}
+G  <- ggplot(mapping = aes(x = factor(Generos))) + geom_bar(fill = "Purple") + coord_flip()
+```
+
+```{r Gráfica, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+GENEROS <- G + ggtitle("Cantidad de Titulos por Genero") +
+   theme(plot.title = element_text(family = "sans", 
+                                   size=rel(1.8),
+                                   vjust=0.5 , hjust=0.5 ,
+                                   face = "italic" ,
+                                   color="Black"))+
+labs(x="Generos",y="Titulos")+
+  theme(axis.title.x = element_text(face="bold",vjust=0.5, color="Purple", size=rel(1.5)))+
+  theme(axis.title.y = element_text(face="bold",vjust=0.5, color="Black", size=rel(1.5)))
+```
+
+```{r GENEROS}
+GENEROS
+```
+
+## Objetivo 2: Puntajes
+
+Evaluando la variable imdb_score para analizar los puntajes correspondientes a los títulos, agrupandolos en las 6 categorías de géneros que creamos.
+
+De esta forma creamos una nueva tabla de frecuencias acumuladas:
+
+```{r Puntos}
+table(Netflix.G6$imdb_score)
+```
+
+Se observa una tabla de frecuencias para los puntajes por lo cual distribuimos en rangos cada puntaje a su respectivo titulo, iniciando con su puntuación más baja 2.5 hasta la más alta 9. 
+
+Dando a luz una nueva variable llamada Calidad la cual corresponde a cada titulo, denominada por 3 etiquetas: Buena, Regular y Mala.
+
+```{r Rangos, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rangos  <- c(0, 5, 7, 10)
+
+Netflix.G6 <- Netflix.G6%>%mutate(Calidad=cut(imdb_score, breaks = rangos,
+                              labels = c("Baja" , "Media" , "Alta")))
+
+
+```
+
+
+```{r}
+table(Netflix.G6$Calidad)
+```
+
+Podemos viasualizar mejor esta nueva variable a través de un gráfico:
+
+```{r calidad, include=FALSE}
+C <- ggplot(Netflix.G6, aes(x=Generos, y=imdb_score, fill=Calidad)) + geom_col(position ="dodge")
+```
+
+```{r}
+C
+```
+
+Con este gráfico se logra visualizar los rangos de la variable Calidad y agrupando sus respectivas 3 etiquetas en cada género. Observamos que las magnitudes son casi homogeneas.
+
+
+\pagebreak
+
+## Objetivo 3: Valores y Procentajes
+
+Generamos una matriz para evaluar las calidades de cada géneros a través de una tabla de frecuencias relativas:
+
+```{r, include=FALSE}
+table(Generos, Netflix.G6$Calidad)
+```
+
+```{r Vectores , include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+ComediaP <- c(17, 41, 5)
+DramaP <- c(18 , 53 , 6)
+DocumentalP <- c(29 , 113 , 17)
+OtrosP <- c(45 , 145 , 22)
+RomanceP <- c(12 , 23 , 4)
+ThrillerP <- c(12 , 17 , 4)
+```
+
+```{r Matriz, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+Datos <- matrix(c(ComediaP, DocumentalP, DramaP, RomanceP, ThrillerP, OtrosP),
+                  nrow = 3,
+                  ncol = 6)
+
+colnames(Datos) <- c("Comedia" , "Documental" , "Drama" , "Romance", "Thriller", "Otros")
+rownames(Datos) <- c("Buena" , "Regular" , "Mala")
+```
+
+Tabla Acumulada 
+
+```{r}
+Datos
+```
+Tabla porcentual
+
+```{r Frecuencias}
+prop.table(Datos)
+```
+
+Ahora se conoce los porcentajes de calidad de cada género, también podemos delimitar los porcentajes marginales para conocer nuevos valores:
+
+```{r}
+prop.table(Datos,1)
+```
+
+Distribución de porcentajes de las filas: Procentaje de calidades agrupando el total de titulos según cada género.
+
+```{r}
+prop.table(Datos, 2)
+```
+
+Distribución de porcentajes de las columnas: Porcentaje de cantidad de titutulos de cada genero distribuidos en sus calidades.
+
+## Objetivo 4: Correlación.
+
+Podemos visualizar la correlación de cada género entre sí.
+
+```{r Correlacion, include=FALSE}
+Correlacion_Generos <- cor(Datos, method = "pearson")
+
+
+```
+
+```{r}
+Correlacion_Generos
+```
+
+Evaluamos nuestros resultados, cada genero se correlaciona con otro, evaluando así cada combinación. Mediante un gráfico podemos visualizarlo:
+
+```{r, Gráfico Correlacion}
+corrplot(Correlacion_Generos)
+```
+
+Se indica la correlación de los géneros mediante la línea de rangos, iniciando con -1 como una correlación débil o casi nula, hacia 1 como una correlación fuerte.
+
+\pagebreak
+
+# Resultados:
+
+### Primer Resultado
+
+Con nuestro primer gráfico trabajando con factores y agrupaciones, observamos que el género "Otros" es con quien más titulos cuenta, siendo casi 250. Mientras que el género con menos titulos sería "Thriller" con menos de 50 titulos.
+
+### Segundo Resultado
+
+Definiendo las etiquetas de categorías en la calidad de cada genero observamos que hay en total 133 titulos de buena calidad, 392 titulos de calidad media y 58 titulos de baja calidad. 
+
+### Tercer Resultado
+
+Ahora podemos encontrar las calidades precisas de cada géneros, pero también evaluarlos entre sí y responder a la interrogante "¿Cuál género es mejor?
+
+El género con la mayor cantidad de titulos de baja calidad es "Otros" con un 3,7% y el género con menor cantidad de titulos de baja calidad es "Thriller" junto con "Romance" con un 0,68%
+
+Además, el género con mayor cantidad de titulos de calidad regular es "Otros" con un 24,8% mientras que el titulo con menor cantidad de titulos de calidad regular es "Thriller" con 2,9%
+
+Por ultimo encontramos que el género con mayor cantidad de titulos de buena calidad es "Otros" con 7,1% y el género con menor cantidad de titulos de buena calidad es "Romance" con 2,05%
+
+### Cuarto Resultado
+
+Con nuestras correlaciones determinamos que el género "Otros" y el género "Thriller" tienen una correlación de 0,8, no son iguales pero si muy similares en cuanto calidades. 
+
+Mientras que los géneros "Documentales" y "Drama" tienen una correlación de 1 con el género "Otros" siendo practicamente parecidos, pero el género Otros presenta una cantidad significativamente mayor que los otros dos.
+
+\pagebreak
+
+# Conclusiones
+
+Entendiendo que, el género cinmetográfico es el tema principal de una película o título y este sirve para las clasificaciones de las mismas. Logramos evaluar en criterio de sus puntajes, estipulados por el criterio de los usuarios de esta plataforma de streaming, para gozar de nuestro entretenimiento conociendo así qué género nos resulta convenientes para cada quién.
+
+El género "Otros" abarca una amplia colección de géneros diversos no clasificados en nuestras otras 5 categorías, conociendo así que algún otro tipo de género nos puede resultar más gratificante para nuestro consumo; tal vez el Romance puede ser el género de preferencia de algún usuario, pero nuestras tablas porcentuales nos demuestran que resulta más interesante explorar otros géneros, que pudiesen convertirse en nuestro favorito.

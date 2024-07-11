@@ -1,8 +1,0 @@
----
-title: "Proyecto Netflix Semestre I"
-author: "Abrahám Soto y Odalis Rodriguez"
-date: "2024-06-19"
-output:
-   pdf_document
----
-

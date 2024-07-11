@@ -1,0 +1,7 @@
+"0","knitr::opts_chunk$set(echo = TRUE)"
+"0","rangos  <- c(0, 5, 7, 10)"
+"0",""
+"0","Netflix.G6 <- Netflix.G6%>%mutate(Calidad=cut(imdb_score, breaks = rangos,"
+"0","                              labels = c(""Baja"" , ""Media"" , ""Alta"")))"
+"0",""
+"0",""

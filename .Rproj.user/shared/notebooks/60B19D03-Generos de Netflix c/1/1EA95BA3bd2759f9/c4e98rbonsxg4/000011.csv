@@ -1,0 +1,8 @@
+"0","knitr::opts_chunk$set(echo = TRUE)"
+"0",""
+"0","ComediaP <- c(17, 41, 5)"
+"0","DramaP <- c(18 , 53 , 6)"
+"0","DocumentalP <- c(29 , 113 , 17)"
+"0","OtrosP <- c(45 , 145 , 22)"
+"0","RomanceP <- c(12 , 23 , 4)"
+"0","ThrillerP <- c(12 , 17 , 4)"

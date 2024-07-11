@@ -1,0 +1,8 @@
+"0","rangos  <- c(0, 5, 7, 10)"
+"0","Netflix.G6 <- Netflix.G6%>%mutate(Calidad=cut(imdb_score, breaks = rangos,"
+"0","                              labels = c(""Baja"" , ""Media"" , ""Alta"")))"
+"0",""
+"0","#"
+"0","C <- ggplot(Netflix.G6, aes(x=Generos, y=imdb_score, fill=Calidad)) + geom_col(position =""dodge"")"
+"0","#"
+"0","C"

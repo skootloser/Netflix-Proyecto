@@ -1,0 +1,6 @@
+"0","Generos <- factor(Generos,"
+"0","             levels = c(""Documentary"" , ""Drama"" , ""Comedy"" , ""Romantic comedy"" , "
+"0","                        ""Thriller"" , ""Comedy-drama"" , ""Other"") ,"
+"0","             labels = c(""Documental"" , ""Drama"" , ""Comedia"" , ""Romance"" , ""Thriller"" ,"
+"0","                        ""Comedia"" , ""Otros""))"
+"0",""

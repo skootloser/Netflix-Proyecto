@@ -1,0 +1,111 @@
+---
+title: "Generos de Netflix"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(readr)
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(corrplot)
+Netflix.G6 <- read.csv("C:/Users/Venejuegos/Desktop/UCV/Netflix G6.csv", sep=";")
+```
+
+Column {data-width=600}
+-----------------------------------------------------------------------
+
+### Total de géneros
+
+En observación a nuestra data podemos establecer que existen 114 géneros en total, provenientes de la variable "Género", los cuales corresponden a un título caracteristicamente. 
+
+```{r}
+Netflix.G6$Genero <- factor(Netflix.G6$Genero)
+Genero <- Netflix.G6$Genero
+
+plot(Netflix.G6$Genero)
+
+```
+
+### Generos agrupados
+
+Géneros < 250
+Thriller < 50
+
+```{r, fig.height=5}
+
+Generos <- c(rep("Documentary" ,159) , rep("Drama" ,77) , rep("Comedy" ,49) , 
+        rep("Romantic comedy" ,39) , rep("Thriller" ,33) , rep("Comedy-drama" ,14) ,
+        rep("Other" ,212))
+
+Generos <- factor(Generos,
+             levels = c("Documentary" , "Drama" , "Comedy" , "Romantic comedy" , 
+                        "Thriller" , "Comedy-drama" , "Other") ,
+             labels = c("Documental" , "Drama" , "Comedia" , "Romance" , "Thriller" ,
+                        "Comedia" , "Otros"))
+
+G  <- ggplot(mapping = aes(x = factor(Generos))) + geom_bar(fill = "Purple") + coord_flip()
+
+GENEROS <- G + ggtitle("Cantidad de Titulos por Genero") +
+   theme(plot.title = element_text(family = "sans", 
+                                   size=rel(1.8),
+                                   vjust=0.5 , hjust=0.5 ,
+                                   face = "italic" ,
+                                   color="Black"))+
+labs(x="Generos",y="Titulos")+
+  theme(axis.title.x = element_text(face="bold",vjust=0.5, color="Purple", size=rel(1.5)))+
+  theme(axis.title.y = element_text(face="bold",vjust=0.5, color="Black", size=rel(1.5)))
+
+GENEROS
+
+```
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+### Calidades
+
+```{r}
+rangos  <- c(0, 5, 7, 10)
+Netflix.G6 <- Netflix.G6%>%mutate(Calidad=cut(imdb_score, breaks = rangos,
+                              labels = c("Baja" , "Media" , "Alta")))
+
+#
+C <- ggplot(Netflix.G6, aes(x=Generos, y=imdb_score, fill=Calidad)) + geom_col(position ="dodge")
+#
+C
+```
+
+### Correlaciones
+
+Documental y Dramas < Otros
+
+
+```{r}
+ComediaP <- c(17 , 41 , 5)
+DramaP <- c(18 , 53 , 6)
+DocumentalP <- c(29 , 113 , 17)
+OtrosP <- c(45 , 145 , 22)
+RomanceP <- c(12 , 23 , 4)
+ThrillerP <- c(12 , 17 , 4)
+
+#
+
+Datos <- matrix(c(ComediaP, DocumentalP, DramaP, RomanceP, ThrillerP, OtrosP),
+                  nrow = 3,
+                  ncol = 6)
+
+colnames(Datos) <- c("Comedia" , "Documental" , "Drama" , "Romance", "Thriller", "Otros")
+rownames(Datos) <- c("Buena" , "Regular" , "Mala")
+
+#
+
+Correlacion <- cor(Datos, method = "pearson")
+corrplot(Correlacion)
+
+```
+

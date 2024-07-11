@@ -1,0 +1,7 @@
+"0","library(flexdashboard)"
+"0","library(readr)"
+"0","library(tidyverse)"
+"0","library(ggplot2)"
+"0","library(dplyr)"
+"0","library(corrplot)"
+"0","Netflix.G6 <- read.csv(""C:/Users/Venejuegos/Desktop/UCV/Netflix G6.csv"", sep="";"")"

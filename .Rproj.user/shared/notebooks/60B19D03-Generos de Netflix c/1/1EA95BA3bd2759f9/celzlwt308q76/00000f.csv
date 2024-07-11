@@ -1,0 +1,1 @@
+"0","G  <- ggplot(mapping = aes(x = factor(Generos))) + geom_bar(fill = ""Purple"") + coord_flip()"
